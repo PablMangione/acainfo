@@ -1,6 +1,7 @@
 package com.acainfo.backend.groupsession.domain.entity;
 
 import com.acainfo.backend.groupsession.domain.value.Classroom;
+import com.acainfo.backend.groupsession.domain.value.SessionType;
 import lombok.*;
 
 import java.time.DayOfWeek;
@@ -18,4 +19,5 @@ public class GroupSession {
     private DayOfWeek dayOfWeek;
     private Classroom classroom;
     private long groupId;
+    private SessionType type;
 }

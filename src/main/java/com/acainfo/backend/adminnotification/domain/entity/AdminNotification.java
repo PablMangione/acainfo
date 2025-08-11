@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(of = "id")
 public class AdminNotification {
     private long id;
-    private long teacher;
+    private long teacherId;
     private LocalDateTime notifiedAt;
     private AdminNotificationType type;
 }
