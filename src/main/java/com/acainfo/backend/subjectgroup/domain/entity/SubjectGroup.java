@@ -20,4 +20,5 @@ public class SubjectGroup {
     private int maxCapacity;
     private GroupType type;
     private BigDecimal price;
+    private int currentEnrollments;
 }

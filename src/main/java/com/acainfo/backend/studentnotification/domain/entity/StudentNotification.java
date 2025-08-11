@@ -15,4 +15,5 @@ public class StudentNotification {
     private long studentId;
     private LocalDateTime notifiedAt;
     private StudentNotificationType type;
+    String message;
 }

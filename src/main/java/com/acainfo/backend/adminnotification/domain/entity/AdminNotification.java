@@ -15,4 +15,5 @@ public class AdminNotification {
     private long teacherId;
     private LocalDateTime notifiedAt;
     private AdminNotificationType type;
+    private String message;
 }
