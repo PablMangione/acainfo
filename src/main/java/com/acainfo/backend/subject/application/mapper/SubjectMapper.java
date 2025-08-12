@@ -82,7 +82,7 @@ public interface SubjectMapper {
      * Para mapear con ID específico.
      * Útil cuando necesitas establecer el ID manualmente.
      */
-    default Subject toDomainWithId(SubjectEditInputDto editDto, long id) {
+    default Subject toDomainWithId(SubjectEditInputDto editDto, Long id) {
         Subject subject = toDomain(editDto);
         subject.setId(id);
         return subject;

@@ -18,13 +18,11 @@ public interface SubjectJpaMapper {
     /**
      * Convierte una entidad JPA a una entidad de dominio
      */
-    @Mapping(target = "id", expression = "java(jpa.getId() != null ? jpa.getId().longValue() : 0L)")
     Subject toDomain(SubjectJpa jpa);
 
     /**
      * Convierte una entidad de dominio a una entidad JPA
      */
-    @Mapping(target = "id", expression = "java(domain.getId() == 0L ? null : Long.valueOf(domain.getId()))")
     SubjectJpa toJpa(Subject domain);
 
     /**
