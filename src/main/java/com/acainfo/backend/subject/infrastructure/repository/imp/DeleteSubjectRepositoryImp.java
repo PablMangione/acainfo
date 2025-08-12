@@ -1,4 +1,4 @@
-package com.acainfo.backend.subject.infrastructure.repository.impl;
+package com.acainfo.backend.subject.infrastructure.repository.imp;
 
 import com.acainfo.backend.subject.domain.exception.InvalidSubjectDataException;
 import com.acainfo.backend.subject.domain.repository.DeleteSubjectRepository;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class DeleteSubjectRepositoryImpl implements DeleteSubjectRepository {
+public class DeleteSubjectRepositoryImp implements DeleteSubjectRepository {
 
     private final SubjectJpaRepository jpaRepository;
 

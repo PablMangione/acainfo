@@ -1,4 +1,4 @@
-package com.acainfo.backend.subject.infrastructure.repository.impl;
+package com.acainfo.backend.subject.infrastructure.repository.imp;
 
 import com.acainfo.backend.subject.domain.entity.Subject;
 import com.acainfo.backend.subject.domain.exception.DuplicateSubjectException;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class CreateSubjectRepositoryImpl implements CreateSubjectRepository {
+public class CreateSubjectRepositoryImp implements CreateSubjectRepository {
 
     private final SubjectJpaRepository jpaRepository;
     private final SubjectJpaMapper mapper;

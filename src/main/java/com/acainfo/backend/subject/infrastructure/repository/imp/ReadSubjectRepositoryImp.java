@@ -1,4 +1,4 @@
-package com.acainfo.backend.subject.infrastructure.repository.impl;
+package com.acainfo.backend.subject.infrastructure.repository.imp;
 
 import com.acainfo.backend.globalenum.Major;
 import com.acainfo.backend.subject.domain.entity.Subject;
@@ -24,7 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional(readOnly = true)
-public class ReadSubjectRepositoryImpl implements ReadSubjectRepository {
+public class ReadSubjectRepositoryImp implements ReadSubjectRepository {
 
     private final SubjectJpaRepository jpaRepository;
     private final SubjectJpaMapper mapper;
