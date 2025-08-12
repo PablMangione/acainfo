@@ -14,13 +14,13 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class GroupSession {
-    private long id;
+    private Long id;
     private LocalTime startTime;
     private LocalTime endTime;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private DayOfWeek dayOfWeek;
     private Classroom classroom;
-    private long groupId;
+    private Long groupId;
     private SessionType type;
 }

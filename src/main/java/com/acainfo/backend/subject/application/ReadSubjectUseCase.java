@@ -21,7 +21,7 @@ public interface ReadSubjectUseCase {
      * @throws com.acainfo.backend.subject.domain.exception.SubjectNotFoundException
      *         si no se encuentra la asignatura
      */
-    SubjectOutputDto findById(long id);
+    SubjectOutputDto findById(Long id);
 
     /**
      * Obtiene todas las asignaturas del sistema.
@@ -90,5 +90,5 @@ public interface ReadSubjectUseCase {
      * @param id el identificador a verificar
      * @return true si existe, false en caso contrario
      */
-    boolean existsById(long id);
+    boolean existsById(Long id);
 }

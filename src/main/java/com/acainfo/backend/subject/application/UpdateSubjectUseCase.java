@@ -22,7 +22,7 @@ public interface UpdateSubjectUseCase {
      * @throws com.acainfo.backend.subject.domain.exception.InvalidSubjectDataException
      *         si los datos proporcionados no son válidos
      */
-    SubjectOutputDto update(long id, SubjectEditInputDto editDto);
+    SubjectOutputDto update(Long id, SubjectEditInputDto editDto);
 
     /**
      * Activa o desactiva una asignatura.
@@ -35,5 +35,5 @@ public interface UpdateSubjectUseCase {
      * @throws com.acainfo.backend.subject.application.exception.SubjectBusinessException
      *         si no se puede cambiar el estado debido a reglas de negocio
      */
-    SubjectOutputDto updateActiveStatus(long id, boolean active);
+    SubjectOutputDto updateActiveStatus(Long id, boolean active);
 }

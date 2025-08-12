@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Teacher {
-    private long id;
+    private Long id;
     private String name;
     private boolean isAdmin;
     private String email;

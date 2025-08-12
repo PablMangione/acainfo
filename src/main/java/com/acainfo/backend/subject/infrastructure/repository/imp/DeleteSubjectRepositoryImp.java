@@ -29,7 +29,7 @@ public class DeleteSubjectRepositoryImp implements DeleteSubjectRepository {
      */
     @Override
     @Transactional
-    public boolean deleteById(long id) {
+    public boolean deleteById(Long id) {
         log.debug("Iniciando eliminación de asignatura con ID: {}", id);
 
         // Verificar si existe antes de intentar eliminar

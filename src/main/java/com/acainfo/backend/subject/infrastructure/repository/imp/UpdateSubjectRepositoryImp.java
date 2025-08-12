@@ -85,7 +85,7 @@ public class UpdateSubjectRepositoryImp implements UpdateSubjectRepository {
     }
 
     @Override
-    public boolean existsById(long id) {
+    public boolean existsById(Long id) {
         log.debug("Verificando existencia de asignatura con ID: {}", id);
         return jpaRepository.existsById(id);
     }

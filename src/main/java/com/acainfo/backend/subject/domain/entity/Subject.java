@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Subject {
-    private long id;
+    private Long id;
     private String name;
     private Major major;
     private CourseYear courseYear;

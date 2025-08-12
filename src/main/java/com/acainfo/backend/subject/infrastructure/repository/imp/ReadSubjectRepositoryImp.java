@@ -30,7 +30,7 @@ public class ReadSubjectRepositoryImp implements ReadSubjectRepository {
     private final SubjectJpaMapper mapper;
 
     @Override
-    public Optional<Subject> findById(long id) {
+    public Optional<Subject> findById(Long id) {
         log.debug("Buscando asignatura por ID: {}", id);
 
         return jpaRepository.findById(id)
@@ -46,7 +46,7 @@ public class ReadSubjectRepositoryImp implements ReadSubjectRepository {
     }
 
     @Override
-    public boolean existsById(long id) {
+    public boolean existsById(Long id) {
         log.debug("Verificando existencia de asignatura con ID: {}", id);
 
         return jpaRepository.existsById(id);

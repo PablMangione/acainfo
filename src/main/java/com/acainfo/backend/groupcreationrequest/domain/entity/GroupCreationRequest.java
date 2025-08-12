@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class GroupCreationRequest {
-    private long id;
+    private Long id;
     private LocalDateTime requestedAt;
     private LocalDateTime updatedAt;
-    private long studentId;
-    private long subjectId;
+    private Long studentId;
+    private Long subjectId;
     private RequestStatus status;
 }

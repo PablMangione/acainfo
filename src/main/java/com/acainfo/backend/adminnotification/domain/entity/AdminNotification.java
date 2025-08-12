@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class AdminNotification {
-    private long id;
-    private long teacherId;
+    private Long id;
+    private Long teacherId;
     private LocalDateTime notifiedAt;
     private AdminNotificationType type;
     private String message;

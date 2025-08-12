@@ -10,6 +10,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class EnrollmentId implements Serializable {
-    private long studentId;
-    private long groupId;
+    private Long studentId;
+    private Long groupId;
 }

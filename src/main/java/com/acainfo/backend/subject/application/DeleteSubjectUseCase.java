@@ -15,7 +15,7 @@ public interface DeleteSubjectUseCase {
      * @throws com.acainfo.backend.subject.application.exception.SubjectBusinessException
      *         si no se puede eliminar debido a dependencias (grupos, inscripciones, etc.)
      */
-    void deleteById(long id);
+    void deleteById(Long id);
 
     /**
      * Elimina lógicamente una asignatura (soft delete).
@@ -27,7 +27,7 @@ public interface DeleteSubjectUseCase {
      * @throws com.acainfo.backend.subject.application.exception.SubjectBusinessException
      *         si la asignatura ya está inactiva
      */
-    void softDeleteById(long id);
+    void softDeleteById(Long id);
 
     /**
      * Verifica si una asignatura puede ser eliminada.
@@ -36,5 +36,5 @@ public interface DeleteSubjectUseCase {
      * @param id el identificador de la asignatura
      * @return true si puede ser eliminada, false si tiene dependencias
      */
-    boolean canBeDeleted(long id);
+    boolean canBeDeleted(Long id);
 }

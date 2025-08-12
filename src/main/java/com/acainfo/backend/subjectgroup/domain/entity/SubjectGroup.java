@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class SubjectGroup {
-    private long id;
+    private Long id;
     private String name;
-    private long subjectId;
-    private long teacherId;
+    private Long subjectId;
+    private Long teacherId;
     private GroupStatus status;
     private int maxCapacity;
     private GroupType type;

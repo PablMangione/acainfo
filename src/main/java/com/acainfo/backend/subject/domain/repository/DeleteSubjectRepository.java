@@ -14,7 +14,7 @@ public interface DeleteSubjectRepository {
      * @param id el identificador de la asignatura
      * @return true si fue eliminada, false si no existía
      */
-    boolean deleteById(long id);
+    boolean deleteById(Long id);
 
     /**
      * Elimina todas las asignaturas.

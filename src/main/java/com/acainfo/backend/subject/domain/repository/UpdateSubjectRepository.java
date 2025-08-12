@@ -24,5 +24,5 @@ public interface UpdateSubjectRepository {
      * Verifica si una asignatura existe antes de intentar actualizarla.
      * Útil para proporcionar mensajes de error más claros.
      */
-    boolean existsById(long id);
+    boolean existsById(Long id);
 }

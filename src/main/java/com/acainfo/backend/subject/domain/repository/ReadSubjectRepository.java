@@ -19,7 +19,7 @@ public interface ReadSubjectRepository {
     /**
      * Busca una asignatura por su ID.
      */
-    Optional<Subject> findById(long id);
+    Optional<Subject> findById(Long id);
 
     /**
      * Obtiene todas las asignaturas.
@@ -29,7 +29,7 @@ public interface ReadSubjectRepository {
     /**
      * Verifica si existe una asignatura con el ID dado.
      */
-    boolean existsById(long id);
+    boolean existsById(Long id);
 
     /**
      * Busca asignaturas por carrera.
