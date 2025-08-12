@@ -19,4 +19,6 @@ public class Subject {
     private CourseYear courseYear;
     private Quarter quarter;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private boolean isActive;
 }

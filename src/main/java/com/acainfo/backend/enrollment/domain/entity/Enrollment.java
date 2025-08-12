@@ -1,10 +1,7 @@
 package com.acainfo.backend.enrollment.domain.entity;
 
 import com.acainfo.backend.enrollment.domain.value.EnrollmentStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -12,8 +9,10 @@ import java.time.LocalDateTime;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Enrollment {
     private EnrollmentId id;
     private LocalDateTime enrolledAt;
+    private LocalDateTime updatedAt;
     private EnrollmentStatus status;
 }

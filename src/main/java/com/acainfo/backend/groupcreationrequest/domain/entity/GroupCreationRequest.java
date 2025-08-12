@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class GroupCreationRequest {
     private long id;
     private LocalDateTime requestedAt;
+    private LocalDateTime updatedAt;
     private long studentId;
     private long subjectId;
     private RequestStatus status;

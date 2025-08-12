@@ -5,6 +5,7 @@ import com.acainfo.backend.subjectgroup.domain.value.GroupType;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @ToString
@@ -21,4 +22,6 @@ public class SubjectGroup {
     private GroupType type;
     private BigDecimal price;
     private int currentEnrollments;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

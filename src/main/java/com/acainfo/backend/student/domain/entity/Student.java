@@ -19,5 +19,6 @@ public class Student {
     private String phoneNumber;
     private Major major;
     private LocalDateTime registeredAt;
+    private LocalDateTime updatedAt;
     private boolean isActive;
 }
