@@ -87,10 +87,10 @@ public class JwtTokenProvider implements TokenService {
             return Optional.ofNullable(userId);
         } catch (ExpiredJwtException e) {
             log.error("Token expirado: {}", e.getMessage());
-            throw new InvalidTokenException("El token ha expirado", e);
+            throw new InvalidTokenException("El token ha expirado");
         } catch (JwtException e) {
             log.error("Token inválido: {}", e.getMessage());
-            throw new InvalidTokenException("Token inválido", (ExpiredJwtException) e);
+            throw new InvalidTokenException("Token inválido");
         }
     }
 
