@@ -1,0 +1,144 @@
+version: '3.8'
+
+services:
+  # ============================================
+  # PostgreSQL Database
+  # ============================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: acainfo-postgres
+    environment:
+      POSTGRES_DB: acainfo_dev
+      POSTGRES_USER: acainfo_dev
+      POSTGRES_PASSWORD: dev123
+      POSTGRES_INIT_DB_ARGS: "--encoding=UTF8 --locale=es_ES.UTF-8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - acainfo-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U acainfo_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # pgAdmin (opcional - para gestión de BD)
+  # ============================================
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: acainfo-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@acainfo.dev
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - acainfo-network
+    depends_on:
+      - postgres
+    profiles:
+      - tools
+
+  # ============================================
+  # Redis (para futuro uso - cache y sesiones)
+  # ============================================
+  redis:
+    image: redis:7-alpine
+    container_name: acainfo-redis
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - acainfo-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    profiles:
+      - cache
+
+  # ============================================
+  # MinIO (para futuro uso - almacenamiento S3)
+  # ============================================
+  minio:
+    image: minio/minio:latest
+    container_name: acainfo-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - acainfo-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    profiles:
+      - storage
+
+  # ============================================
+  # MailHog (para desarrollo - captura de emails)
+  # ============================================
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: acainfo-mailhog
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+    networks:
+      - acainfo-network
+    profiles:
+      - mail
+
+  # ============================================
+  # Aplicación Spring Boot (opcional)
+  # ============================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: acainfo-app
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/acainfo_dev
+      SPRING_DATASOURCE_USERNAME: acainfo_dev
+      SPRING_DATASOURCE_PASSWORD: dev123
+    ports:
+      - "8080:8080"
+    networks:
+      - acainfo-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    profiles:
+      - app
+
+networks:
+  acainfo-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+  redis_data:
+    driver: local
+  minio_data:
+    driver: local
