@@ -18,10 +18,10 @@ public class SubjectGroup {
     private Long subjectId;
     private Long teacherId;
     private GroupStatus status;
-    private int maxCapacity;
+    private Integer maxCapacity;
     private GroupType type;
     private BigDecimal price;
-    private int currentEnrollments;
+    private Integer currentEnrollments;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
