@@ -1,0 +1,140 @@
+# ============================================
+# Perfil de TEST
+# ============================================
+
+spring:
+  # ============================================
+  # Base de Datos - H2 en memoria
+  # ============================================
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    hikari:
+      maximum-pool-size: 2
+      minimum-idle: 1
+
+  # ============================================
+  # JPA/Hibernate - Configuración test
+  # ============================================
+  jpa:
+    hibernate:
+      ddl-auto: create-drop  # Recrear BD en cada test
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: false
+        use_sql_comments: false
+        jdbc:
+          batch_size: 10
+    show-sql: false  # No mostrar SQL en tests
+    defer-datasource-initialization: true
+
+  # ============================================
+  # H2 Console - Para debugging de tests
+  # ============================================
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: false
+
+  # ============================================
+  # SQL - Scripts de inicialización
+  # ============================================
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data-test.sql
+      schema-locations: classpath:schema-test.sql
+
+# ============================================
+# Servidor - Puerto para tests
+# ============================================
+server:
+  port: 0  # Puerto aleatorio para tests de integración
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on_param
+    include-exception: false
+
+# ============================================
+# JWT - Configuración para tests
+# ============================================
+jwt:
+  secret: test-secret-key-for-testing-only-not-for-production-use
+  access-token:
+    expiration: 300000  # 5 minutos
+  refresh-token:
+    expiration: 600000  # 10 minutos
+
+# ============================================
+# Logging - Mínimo en tests
+# ============================================
+logging:
+  level:
+    root: WARN
+    com.acainfo.backend: INFO
+    org.springframework: WARN
+    org.hibernate: WARN
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/acainfo-test.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 5
+
+# ============================================
+# Swagger - Deshabilitado en tests
+# ============================================
+springdoc:
+  swagger-ui:
+    enabled: false
+  api-docs:
+    enabled: false
+
+# ============================================
+# CORS - Configuración básica para tests
+# ============================================
+cors:
+  allowed-origins:
+    - http://localhost:3000
+  allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+  allowed-headers:
+    - "*"
+  allow-credentials: true
+  max-age: 3600
+
+# ============================================
+# Actuator - Limitado en tests
+# ============================================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+
+# ============================================
+# Configuración de tests
+# ============================================
+app:
+  init-data:
+    enabled: false  # No cargar datos de prueba en tests
+
+# ============================================
+# TestContainers (si se usa)
+# ============================================
+testcontainers:
+  enabled: false  # Usar H2 por defecto, activar para tests con PostgreSQL real
