@@ -24,10 +24,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Lazy // Importante: cargar de forma lazy para evitar dependencias circulares
+    @Lazy
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    @Lazy // Importante: cargar de forma lazy
+    @Lazy
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
@@ -36,7 +36,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Lazy // Cargar de forma lazy
+    @Lazy
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
@@ -60,12 +60,35 @@ public class SecurityConfig {
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        // Endpoints públicos
+                        // Endpoints públicos de autenticación
+                        .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/public/**").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/actuator/health").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll() // Solo para desarrollo
+
+                        // Swagger UI - Todos los paths necesarios
+                        .requestMatchers(
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
+
+                        // Actuator - Health y métricas
+                        .requestMatchers(
+                                "/actuator/health",
+                                "/actuator/health/**",
+                                "/actuator/info",
+                                "/actuator/metrics/**",
+                                "/actuator/prometheus"
+                        ).permitAll()
+
+                        // H2 Console - Solo para desarrollo
+                        .requestMatchers("/h2-console/**").permitAll()
+
+                        // Archivos estáticos y errores
+                        .requestMatchers("/error").permitAll()
+                        .requestMatchers("/favicon.ico").permitAll()
 
                         // El resto requiere autenticación
                         .anyRequest().authenticated()
@@ -74,8 +97,10 @@ public class SecurityConfig {
         // Añadir el filtro JWT antes del filtro de autenticación de Spring
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // Para H2 Console en desarrollo
-        http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
+        // Para H2 Console en desarrollo (permite iframes)
+        http.headers(headers -> headers
+                .frameOptions(frame -> frame.sameOrigin())
+        );
 
         return http.build();
     }

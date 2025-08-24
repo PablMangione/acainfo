@@ -1,25 +1,85 @@
 version: '3.8'
 
 services:
+  # PostgreSQL Database
   postgres:
     image: postgres:15
     container_name: acainfo-postgres
     environment:
       POSTGRES_DB: acainfo_dev
       POSTGRES_USER: acainfo_dev
-      POSTGRES_PASSWORD: acainfo_dev
-      POSTGRES_HOST_AUTH_METHOD: scram-sha-256  # Fuerza autenticación
+      POSTGRES_PASSWORD: dev123
     ports:
       - "5432:5432"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "PGPASSWORD=acainfo_dev pg_isready -U acainfo_dev -d acainfo_dev"]
+      test: ["CMD-SHELL", "pg_isready -U acainfo_dev -d acainfo_dev"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - acainfo-network
+
+  # Spring Boot Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: acainfo-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Spring profiles
+      SPRING_PROFILES_ACTIVE: dev
+      # Database configuration - overrides application-dev.yml
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/acainfo_dev
+      SPRING_DATASOURCE_USERNAME: acainfo_dev
+      SPRING_DATASOURCE_PASSWORD: dev123
+      # JPA Configuration
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
+      SPRING_JPA_SHOW_SQL: "true"
+      # Logging
+      LOGGING_LEVEL_ROOT: INFO
+      LOGGING_LEVEL_COM_ACAINFO_BACKEND: DEBUG
+    ports:
+      - "8080:8080"
+    volumes:
+      # Hot reload for development (optional)
+      - ./target:/app/target
+      - ./src:/app/src
+      - ~/.m2:/root/.m2
+    networks:
+      - acainfo-network
+    restart: unless-stopped
+
+  # Optional: pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: acainfo-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@acainfo.dev
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - acainfo-network
+    profiles:
+      - tools
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
 
 volumes:
   postgres_data:
     driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  acainfo-network:
+    driver: bridge

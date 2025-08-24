@@ -7,12 +7,23 @@ spring:
   # Base de Datos - PostgreSQL local
   # ============================================
   datasource:
+    # OPCIÓN 1: Usar el usuario acainfo_dev (recomendado)
     url: jdbc:postgresql://localhost:5432/acainfo_dev
     username: acainfo_dev
-    password: acainfo_dev
+    password: dev123
+
+    # OPCIÓN 2: Si prefieres usar el usuario postgres
+    # url: jdbc:postgresql://localhost:5432/acainfo_dev
+    # username: postgres
+    # password: postgres
+
+    driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 5
       minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
 
   # ============================================
   # JPA/Hibernate - Configuración desarrollo
@@ -22,6 +33,7 @@ spring:
       ddl-auto: create-drop
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
         use_sql_comments: true
         generate_statistics: true
@@ -36,6 +48,7 @@ spring:
       additional-paths: src/main/java
     livereload:
       enabled: true
+
 # ============================================
 # Servidor - Puerto de desarrollo
 # ============================================
@@ -70,6 +83,8 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.hibernate.stat: DEBUG
+    com.zaxxer.hikari: DEBUG  # Para ver detalles de conexión
+    org.postgresql: DEBUG     # Para ver detalles de PostgreSQL
   pattern:
     console: "%d{HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg%n"
   file:

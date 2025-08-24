@@ -1,0 +1,20 @@
+# Dockerfile.dev - Versión simplificada para desarrollo
+FROM eclipse-temurin:21
+
+WORKDIR /app
+
+# Instalar Maven
+RUN apt-get update && \
+    apt-get install -y maven && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copiar archivos del proyecto
+COPY pom.xml .
+COPY src ./src
+
+# Exponer puerto
+EXPOSE 8080
+
+# Comando para ejecutar con Maven (permite hot reload)
+CMD ["mvn", "spring-boot:run", "-Dspring.profiles.active=dev"]
